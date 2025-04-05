@@ -1,0 +1,574 @@
+<!DOCTYPE html> <!-- Declares the document type as HTML5 -->
+<html lang="en"> <!-- Starts the HTML document with English language attribute -->
+<head> <!-- Begins the head section containing metadata -->
+    <meta charset="UTF-8"> <!-- Sets character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures responsive viewport scaling -->
+    <title>Rahul - Portfolio</title> <!-- Sets the page title displayed in browser tab -->
+    <style> <!-- Begins the internal CSS styling -->
+        * { /* Universal selector for all elements */
+            margin: 0; /* Removes default margins */
+            padding: 0; /* Removes default padding */
+            box-sizing: border-box; /* Includes padding and border in element's total width/height */
+        }
+
+        body { /* Styles the body element */
+            font-family: 'Arial', sans-serif; /* Sets font to Arial or sans-serif fallback */
+            line-height: 1.6; /* Sets line height to 1.6 times font size */
+            color: #333; /* Sets text color to dark gray */
+            overflow-x: hidden; /* Prevents horizontal scrolling */
+        }
+
+        .main-content { /* New wrapper for main content */
+            margin-left: 160px; /* Matches reduced sidebar width on desktop */
+            transition: margin-left 0.3s ease-in-out; /* Smooth transition for mobile */
+        }
+
+        .container { /* Styles the container class */
+            max-width: 1200px; /* Sets maximum width to 1200 pixels */
+            margin: 0 auto; /* Centers the container horizontally */
+            padding: 20px; /* Adds padding on all sides */
+            width: 100%; /* Ensures full width usage */
+        }
+
+        .sidebar { /* Styles the sidebar navigation */
+            width: 160px; /* Further reduced from 180px for desktop */
+            height: 100vh; /* Sets height to full viewport height */
+            background: #fff; /* Sets background color to white */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Adds subtle right shadow */
+            position: fixed; /* Fixes position on screen */
+            top: 0; /* Aligns to top of viewport */
+            left: 0; /* Aligns to left of viewport */
+            z-index: 1000; /* Ensures sidebar stays above content */
+            display: flex; /* Uses flexbox for layout */
+            flex-direction: column; /* Arranges items vertically */
+            padding: 15px; /* Maintains reduced padding */
+            transition: transform 0.3s ease-in-out; /* Adds smooth transition for sliding */
+        }
+
+        .logo { /* Styles the logo text */
+            font-size: 20px; /* Maintains reduced size */
+            font-weight: bold; /* Makes text bold */
+            margin-bottom: 30px; /* Maintains reduced margin */
+            text-align: center; /* Centers the text */
+        }
+
+        .nav-links { /* Styles the navigation links container */
+            list-style: none; /* Removes default list bullets */
+            display: flex; /* Uses flexbox for layout */
+            flex-direction: column; /* Arranges links vertically */
+            gap: 15px; /* Maintains reduced gap */
+        }
+
+        .nav-links a { /* Styles the navigation links */
+            text-decoration: none; /* Removes underline from links */
+            color: #333; /* Sets text color to dark gray */
+            transition: all 0.3s; /* Adds smooth transition for all properties */
+            display: block; /* Makes links block elements */
+            padding: 8px; /* Maintains reduced padding */
+            border-radius: 5px; /* Rounds corners */
+            font-size: 14px; /* Maintains reduced font size */
+        }
+
+        .nav-links a:hover { /* Styles navigation links on hover */
+            color: #fff; /* Changes text color to white */
+            background: #007bff; /* Sets background to blue */
+        }
+
+        .menu-toggle { /* Styles the mobile menu toggle button */
+            display: none; /* Hides by default on desktop */
+            font-size: 20px; /* Maintains reduced size */
+            background: none; /* Removes background */
+            border: none; /* Removes border */
+            cursor: pointer; /* Shows pointer cursor */
+            position: fixed; /* Fixes position */
+            top: 15px; /* Positions from top */
+            left: 15px; /* Positions from left */
+            z-index: 1100; /* Ensures it stays above sidebar */
+        }
+
+        .overlay { /* Styles the overlay for mobile */
+            display: none; /* Hides by default */
+            position: fixed; /* Fixes position */
+            top: 0; /* Covers full screen from top */
+            left: 0; /* Covers full screen from left */
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            z-index: 900; /* Below sidebar but above content */
+        }
+
+        .hero { /* Styles the hero section */
+            min-height: 100vh; /* Sets minimum height to full viewport */
+            background: linear-gradient(135deg, #007bff, #00ddeb); /* Adds gradient background */
+            display: flex; /* Uses flexbox for layout */
+            align-items: center; /* Centers content vertically */
+            text-align: center; /* Centers text horizontally */
+            color: white; /* Sets text color to white */
+        }
+
+        .hero h1 { /* Styles hero section heading */
+            font-size: 48px; /* Sets font size to 48 pixels */
+            margin-bottom: 20px; /* Adds bottom margin */
+        }
+
+        .hero p { /* Styles hero section paragraph */
+            font-size: 24px; /* Sets font size to 24 pixels */
+            margin-bottom: 30px; /* Adds bottom margin */
+        }
+
+        .btn { /* Styles buttons */
+            display: inline-block; /* Displays as inline-block */
+            padding: 12px 25px; /* Adds padding */
+            background: #fff; /* Sets background to white */
+            color: #007bff; /* Sets text color to blue */
+            text-decoration: none; /* Removes underline */
+            border-radius: 5px; /* Rounds corners */
+            transition: all 0.3s; /* Adds smooth transition for all properties */
+            font-size: 16px; /* Sets font size */
+        }
+
+        .btn:hover { /* Styles buttons on hover */
+            background: #007bff; /* Changes background to blue */
+            color: #fff; /* Changes text to white */
+        }
+
+        .section { /* Styles all sections */
+            padding: 80px 0; /* Adds top and bottom padding */
+        }
+
+        .section h2 { /* Styles section headings */
+            text-align: center; /* Centers text */
+            margin-bottom: 40px; /* Adds bottom margin */
+            font-size: 36px; /* Sets font size to 36 pixels */
+        }
+
+        .about-content, .profile-content, .certificates-grid, .education-grid { /* Styles content containers */
+            display: flex; /* Uses flexbox for layout */
+            gap: 40px; /* Adds 40px space between items */
+            align-items: center; /* Centers items vertically */
+            justify-content: center; /* Centers items horizontally */
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
+        }
+
+        .about-content img, .profile-content img { /* Styles images in about and profile sections */
+            border-radius: 50%; /* Makes images circular */
+            width: 200px; /* Sets width to 200 pixels */
+            height: 200px; /* Sets height to 200 pixels */
+            object-fit: cover; /* Ensures image fills space properly */
+        }
+
+        .skills-grid { /* Styles skills section grid */
+            display: grid; /* Uses grid layout */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Creates responsive columns */
+            gap: 20px; /* Adds 20px space between items */
+        }
+
+        .skill-card { /* Styles individual skill cards */
+            background: #f5f5f5; /* Sets light gray background */
+            padding: 20px; /* Adds padding */
+            text-align: center; /* Centers text */
+            border-radius: 5px; /* Rounds corners */
+            transition: transform 0.3s; /* Adds smooth transform transition */
+        }
+
+        .skill-card:hover { /* Styles skill cards on hover */
+            transform: translateY(-5px); /* Moves card up 5 pixels */
+        }
+
+        .projects-grid, .certificates-grid, .education-grid { /* Styles grid containers */
+            display: grid; /* Uses grid layout */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Creates responsive columns */
+            gap: 30px; /* Adds 30px space between items */
+        }
+
+        .project-card, .certificate-card, .education-card { /* Styles individual cards */
+            background: #fff; /* Sets white background */
+            border-radius: 5px; /* Rounds corners */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Adds subtle shadow */
+            padding: 20px; /* Adds padding */
+            text-align: center; /* Centers text */
+        }
+
+        .project-card img, .certificate-card img, .education-card img { /* Styles images in cards */
+            width: 100%; /* Sets width to full container */
+            border-radius: 5px; /* Rounds corners */
+            margin-bottom: 15px; /* Adds bottom margin */
+            max-height: 200px; /* Limits maximum height */
+            object-fit: cover; /* Ensures image fills space properly */
+        }
+
+        form { /* Styles the contact form */
+            max-width: 600px; /* Sets maximum width */
+            margin: 0 auto; /* Centers form */
+            display: flex; /* Uses flexbox */
+            flex-direction: column; /* Arranges items vertically */
+            gap: 20px; /* Adds space between form elements */
+        }
+
+        input, textarea { /* Styles form inputs */
+            padding: 15px; /* Adds padding */
+            border: 1px solid #ddd; /* Adds light gray border */
+            border-radius: 5px; /* Rounds corners */
+            font-size: 16px; /* Sets font size */
+            width: 100%; /* Ensures full width */
+        }
+
+        textarea { /* Styles textarea specifically */
+            height: 150px; /* Sets fixed height */
+            resize: vertical; /* Allows vertical resizing only */
+        }
+
+        footer { /* Styles the footer */
+            background: #f5f5f5; /* Sets light gray background */
+            padding: 20px 0; /* Adds vertical padding */
+            text-align: center; /* Centers text */
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) { /* Tablets and smaller desktops */
+            .sidebar { /* Adjusts sidebar */
+                width: 140px; /* Reduced from 150px */
+            }
+
+            .main-content { /* Adjusts content margin */
+                margin-left: 140px; /* Matches reduced sidebar width */
+            }
+
+            .hero h1 { /* Adjusts hero heading */
+                font-size: 40px; /* Slightly smaller font */
+            }
+
+            .hero p { /* Adjusts hero paragraph */
+                font-size: 20px; /* Slightly smaller font */
+            }
+
+            .section { /* Adjusts section padding */
+                padding: 60px 0; /* Reduces padding */
+            }
+        }
+
+        @media (max-width: 768px) { /* Mobile devices */
+            .sidebar { /* Adjusts sidebar for mobile */
+                width: 50%; /* Reduced from 60% */
+                max-width: 180px; /* Reduced from 200px */
+                transform: translateX(-100%); /* Hides sidebar off-screen */
+            }
+
+            .sidebar.active { /* Styles active sidebar state */
+                transform: translateX(0); /* Shows sidebar */
+            }
+
+            .main-content { /* Removes margin on mobile */
+                margin-left: 0; /* No offset when sidebar is hidden */
+            }
+
+            .menu-toggle { /* Shows toggle button */
+                display: block; /* Makes visible */
+            }
+
+            .overlay.active { /* Shows overlay when sidebar is active */
+                display: block; /* Makes visible */
+            }
+
+            .container { /* Adjusts container */
+                padding: 15px; /* Reduces padding */
+            }
+
+            .hero { /* Adjusts hero section */
+                padding-top: 60px; /* Adds top padding for toggle button */
+            }
+
+            .hero h1 { /* Adjusts hero heading */
+                font-size: 32px; /* Reduces font size */
+            }
+
+            .hero p { /* Adjusts hero paragraph */
+                font-size: 18px; /* Reduces font size */
+            }
+
+            .section { /* Adjusts section padding */
+                padding: 40px 0; /* Reduces padding */
+            }
+
+            .section h2 { /* Adjusts section headings */
+                font-size: 28px; /* Reduces font size */
+            }
+
+            .about-content img, .profile-content img { /* Adjusts profile images */
+                width: 150px; /* Reduces width */
+                height: 150px; /* Reduces height */
+            }
+
+            .projects-grid, .certificates-grid, .education-grid { /* Adjusts grids */
+                grid-template-columns: 1fr; /* Single column */
+                gap: 20px; /* Reduces gap */
+            }
+
+            .btn { /* Adjusts buttons */
+                padding: 10px 20px; /* Slightly smaller padding */
+            }
+        }
+
+        @media (max-width: 480px) { /* Very small screens */
+            .sidebar { /* Further adjusts sidebar */
+                width: 60%; /* Adjusted from 70% */
+                max-width: 160px; /* Reduced from 180px */
+                padding: 10px; /* Maintains reduced padding */
+            }
+
+            .logo { /* Adjusts logo */
+                font-size: 18px; /* Maintains reduced size */
+                margin-bottom: 20px; /* Maintains reduced margin */
+            }
+
+            .nav-links a { /* Adjusts navigation links */
+                font-size: 13px; /* Maintains reduced size */
+                padding: 6px; /* Maintains reduced padding */
+            }
+
+            .hero h1 { /* Further adjusts hero heading */
+                font-size: 24px; /* Smaller font */
+            }
+
+            .hero p { /* Further adjusts hero paragraph */
+                font-size: 16px; /* Smaller font */
+            }
+
+            .section h2 { /* Further adjusts section headings */
+                font-size: 24px; /* Smaller font */
+            }
+
+            .about-content img, .profile-content img { /* Further adjusts profile images */
+                width: 120px; /* Smaller width */
+                height: 120px; /* Smaller height */
+            }
+
+            .skill-card { /* Adjusts skill cards */
+                padding: 15px; /* Reduces padding */
+            }
+
+            .project-card, .certificate-card, .education-card { /* Adjusts cards */
+                padding: 15px; /* Reduces padding */
+            }
+
+            .btn { /* Further adjusts buttons */
+                padding: 8px 15px; /* Smaller padding */
+                font-size: 14px; /* Smaller font */
+            }
+
+            .menu-toggle { /* Adjusts toggle button */
+                font-size: 18px; /* Maintains reduced size */
+            }
+
+            input, textarea { /* Adjusts form inputs */
+                padding: 12px; /* Reduces padding */
+                font-size: 14px; /* Reduces font size */
+            }
+
+            textarea { /* Adjusts textarea */
+                height: 120px; /* Reduces height */
+            }
+        }
+    </style> <!-- Ends the CSS styling -->
+</head> <!-- Ends the head section -->
+<body> <!-- Begins the body section -->
+    <button class="menu-toggle">☰</button> <!-- Mobile menu toggle button -->
+    <div class="overlay"></div> <!-- Overlay for mobile sidebar -->
+    <nav class="sidebar"> <!-- Starts the sidebar navigation -->
+        <div class="logo">Rahul</div> <!-- Displays the logo/name -->
+        <ul class="nav-links"> <!-- Starts the navigation links list -->
+            <li><a href="#home">Home</a></li> <!-- Home link -->
+            <li><a href="#about">About</a></li> <!-- About link -->
+            <li><a href="#profile">Profile</a></li> <!-- Profile link -->
+            <li><a href="#skills">Skills</a></li> <!-- Skills link -->
+            <li><a href="#projects">Projects</a></li> <!-- Projects link -->
+            <li><a href="#certificates">Certificates</a></li> <!-- Certificates link -->
+            <li><a href="#education">Education</a></li> <!-- Education link -->
+            <li><a href="#contact">Contact</a></li> <!-- Contact link -->
+        </ul> <!-- Ends the navigation links list -->
+    </nav> <!-- Ends the sidebar navigation -->
+
+    <div class="main-content"> <!-- New wrapper for all sections -->
+        <section id="home" class="hero"> <!-- Starts the hero section -->
+            <div class="container"> <!-- Container for hero content -->
+                <h1>Hi, I'm Rahul</h1> <!-- Main heading -->
+                <p>Web Developer | Designer | Creative Thinker</p> <!-- Subtitle -->
+                <a href="#contact" class="btn">Get in Touch</a> <!-- Contact button -->
+            </div> <!-- Ends hero container -->
+        </section> <!-- Ends hero section -->
+
+        <section id="about" class="section"> <!-- Starts about section -->
+            <div class="container"> <!-- Container for about content -->
+                <h2>About Me</h2> <!-- Section heading -->
+                <div class="about-content"> <!-- Content wrapper -->
+                    <p>I'm a passionate web developer with experience in creating modern, responsive websites. I specialize in front-end development and have a keen eye for design. My goal is to create user-friendly digital experiences that make an impact.</p> <!-- About text -->
+                </div> <!-- Ends content wrapper -->
+            </div> <!-- Ends about container -->
+        </section> <!-- Ends about section -->
+
+        <section id="profile" class="section"> <!-- Starts profile section -->
+            <div class="container"> <!-- Container for profile content -->
+                <h2>Profile Images</h2> <!-- Section heading -->
+                <div class="profile-content"> <!-- Content wrapper -->
+                    <img src="img/Rahul.jpg" alt="Profile 1"> <!-- First profile image -->
+                </div> <!-- Ends content wrapper -->
+            </div> <!-- Ends profile container -->
+        </section> <!-- Ends profile section -->
+
+        <section id="skills" class="section"> <!-- Starts skills section -->
+            <div class="container"> <!-- Container for skills content -->
+                <h2>My Skills</h2> <!-- Section heading -->
+                <div class="skills-grid"> <!-- Grid wrapper for skills -->
+                    <div class="skill-card">HTML5</div> <!-- Skill item -->
+                    <div class="skill-card">CSS3</div> <!-- Skill item -->
+                    <div class="skill-card">JavaScript</div> <!-- Skill item -->
+                    <div class="skill-card">React</div> <!-- Skill item -->
+                    <div class="skill-card">Git</div> <!-- Skill item -->
+                    <div class="skill-card">Responsive Design</div> <!-- Skill item -->
+                </div> <!-- Ends skills grid -->
+            </div> <!-- Ends skills container -->
+        </section> <!-- Ends skills section -->
+
+        <section id="projects" class="section"> <!-- Starts projects section -->
+            <div class="container"> <!-- Container for projects content -->
+                <h2>Projects</h2> <!-- Section heading -->
+                <div class="projects-grid"> <!-- Grid wrapper for projects -->
+                    <div class="project-card"> <!-- Project card -->
+                        <img src="project/pro1.png" alt="Project 1"> <!-- Project image -->
+                        <h3>Weather</h3> <!-- Project title -->
+                        <p>A responsive Weather App that displays real-time weather data for any location using live API integration.</p> <!-- Project description -->
+                    </div> <!-- Ends project card -->
+                    <div class="project-card"> <!-- Project card -->
+                        <img src="project/pro2.webp" alt="Project 2"> <!-- Project image -->
+                        <h3>To Do List</h3> <!-- Project title -->
+                        <p>A simple and interactive To-Do List app that lets users add, manage, and delete tasks with a clean user interface.</p> <!-- Project description -->
+                    </div> <!-- Ends project card -->
+                </div> <!-- Ends projects grid -->
+            </div> <!-- Ends projects container -->
+        </section> <!-- Ends projects section -->
+
+        <section id="certificates" class="section"> <!-- Starts certificates section -->
+            <div class="container"> <!-- Container for certificates content -->
+                <h2>Certificates</h2> <!-- Section heading -->
+                <div class="certificates-grid"> <!-- Grid wrapper for certificates -->
+                    <div class="certificate-card"> <!-- Certificate card -->
+                        <a href="https://www.coursera.org/learn/html-css-javascript-for-web-developers/home/module/1" target="_blank">
+                            <img src="certificate/cer1.png" alt="Certificate 1"> <!-- Certificate image -->
+                        </a>
+                        <h3>
+                            <a href="https://www.coursera.org/learn/html-css-javascript-for-web-developers/home/module/1" target="_blank">
+                                HTML, CSS, and Javascript for Web Developers
+                            </a>
+                        </h3> <!-- Certificate title -->
+                        <p>Issued by: Coursera</p> <!-- Certificate details -->
+                    </div> <!-- Ends certificate card -->
+                    <div class="certificate-card"> <!-- Certificate card -->
+                        <a href="https://www.coursera.org/account/accomplishments/verify/47M4DMC1IAER" target="_blank">
+                            <img src="certificate/cer2.png" alt="Certificate 2"> <!-- Certificate image -->
+                        </a>
+                        <h3>
+                            <a href="https://www.coursera.org/account/accomplishments/verify/47M4DMC1IAER" target="_blank">
+                                Programming with JavaScript
+                            </a>
+                        </h3> <!-- Certificate title -->
+                        <p>Issued by: Coursera</p> <!-- Certificate details -->
+                    </div> <!-- Ends certificate card -->
+                </div> <!-- Ends certificates grid -->
+            </div> <!-- Ends certificates container -->
+        </section> <!-- Ends certificates section -->
+
+        <section id="education" class="section"> <!-- Starts education section -->
+            <div class="container"> <!-- Container for education content -->
+                <h2>Education</h2> <!-- Section heading -->
+                <div class="education-grid"> <!-- Grid wrapper for education -->
+                    <div class="education-card"> <!-- Education card -->
+                        <img src="educations/college.png" alt="Education 1"> <!-- Education image -->
+                        <h3>B.C.A Computer Applications</h3> <!-- Education title -->
+                        <p>KG College of Arts and Science - 2024-2026</p> <!-- Education details -->
+                    </div> <!-- Ends education card -->
+                    <div class="education-card"> <!-- Education card -->
+                        <img src="educations/school.png" alt="Education 2"> <!-- Education image -->
+                        <h3>Arts Group</h3> <!-- Education title -->
+                        <p>SNR Vidhya Nethra Matric Hr Sec School - 2023</p> <!-- Education details -->
+                    </div> <!-- Ends education card -->
+                </div> <!-- Ends education grid -->
+            </div> <!-- Ends education container -->
+        </section> <!-- Ends education section -->
+
+        <section id="contact" class="section"> <!-- Starts contact section -->
+            <div class="container"> <!-- Container for contact content -->
+                <h2>Contact Me</h2> <!-- Section heading -->
+                <form id="contact-form"> <!-- Contact form -->
+                    <input type="text" placeholder="Name" required> <!-- Name input -->
+                    <input type="email" placeholder="Email" required> <!-- Email input -->
+                    <textarea placeholder="Message" required></textarea> <!-- Message textarea -->
+                    <button type="submit" class="btn">Send Message</button> <!-- Submit button -->
+                </form> <!-- Ends contact form -->
+            </div> <!-- Ends contact container -->
+        </section> <!-- Ends contact section -->
+
+        <footer> <!-- Starts footer -->
+            <div class="container"> <!-- Container for footer content -->
+                <p>© 2025 Rahul. All rights reserved.</p> <!-- Copyright notice -->
+            </div> <!-- Ends footer container -->
+        </footer> <!-- Ends footer -->
+    </div> <!-- Ends main-content wrapper -->
+
+    <script> <!-- Begins JavaScript -->
+        document.addEventListener('DOMContentLoaded', () => { /* Waits for document to load */
+            const menuToggle = document.querySelector('.menu-toggle'); /* Gets menu toggle button */
+            const sidebar = document.querySelector('.sidebar'); /* Gets sidebar element */
+            const overlay = document.querySelector('.overlay'); /* Gets overlay element */
+
+            menuToggle.addEventListener('click', () => { /* Adds click event to toggle button */
+                sidebar.classList.toggle('active'); /* Toggles sidebar visibility */
+                overlay.classList.toggle('active'); /* Toggles overlay visibility */
+            });
+
+            overlay.addEventListener('click', () => { /* Adds click event to overlay */
+                sidebar.classList.remove('active'); /* Hides sidebar */
+                overlay.classList.remove('active'); /* Hides overlay */
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => { /* Selects all anchor links with # */
+                anchor.addEventListener('click', function (e) { /* Adds click event listener */
+                    e.preventDefault(); /* Prevents default link behavior */
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({ /* Smooth scrolls to target */
+                        behavior: 'smooth' /* Enables smooth scrolling */
+                    });
+                    if (window.innerWidth <= 768) { /* Checks if on mobile */
+                        sidebar.classList.remove('active'); /* Closes sidebar */
+                        overlay.classList.remove('active'); /* Hides overlay */
+                    }
+                });
+            });
+
+            const form = document.getElementById('contact-form'); /* Gets contact form element */
+            form.addEventListener('submit', (e) => { /* Adds submit event listener */
+                e.preventDefault(); /* Prevents form submission */
+                alert('Thank you for your message! I\'ll get back to you soon.'); /* Shows success message */
+                form.reset(); /* Resets form fields */
+            });
+
+            const animatedElements = document.querySelectorAll('.project-card, .certificate-card, .education-card'); /* Selects cards for animation */
+            const observer = new IntersectionObserver((entries) => { /* Creates intersection observer */
+                entries.forEach(entry => { /* Loops through observed elements */
+                    if (entry.isIntersecting) { /* Checks if element is in view */
+                        entry.target.style.opacity = '1'; /* Sets opacity to fully visible */
+                        entry.target.style.transform = 'translateY(0)'; /* Resets vertical position */
+                    }
+                });
+            }, {
+                threshold: 0.1 /* Triggers when 10% of element is visible */
+            });
+
+            animatedElements.forEach(element => { /* Loops through animated elements */
+                element.style.opacity = '0'; /* Sets initial opacity to hidden */
+                element.style.transform = 'translateY(20px)'; /* Sets initial position below */
+                element.style.transition = 'all 0.5s'; /* Adds smooth transition */
+                observer.observe(element); /* Starts observing element */
+            });
+        });
+    </script> <!-- Ends JavaScript -->
+</body> <!-- Ends body section -->
+</html> <!-- Ends HTML document -->
